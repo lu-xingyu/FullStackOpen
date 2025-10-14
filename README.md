@@ -1,2 +1,2 @@
 # FullStackOpen
-This repo contains my solution for exercises of Full Stack Open course
+This repository contains my code and exercise solutions from the Full Stack Open course.
