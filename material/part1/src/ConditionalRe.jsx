@@ -39,7 +39,6 @@ const App = () => {
   return (
     <div>
       {left}
-
       <Button onClick={handleLeftClick} text='left' />
       <Button onClick={handleRightClick} text='right' />
       {right}
