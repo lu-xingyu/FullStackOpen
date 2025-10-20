@@ -1,5 +1,13 @@
 import ReactDOM from 'react-dom/client'
-import App from './AppForms'
+import App from './AppC'
+
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+
+
+/*
+// initial with AppForms
 
 const notes = [
   {
@@ -19,6 +27,22 @@ const notes = [
   }
 ]
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <App notes={notes} />
-)
+ReactDOM.createRoot(document.getElementById('root')).render(<App notes={notes} />)
+
+
+
+
+// Use promise fetching with axios
+
+const promise = axios.get('https://didactic-halibut-q7pxpr6qv64g346j7-3001.app.github.dev/notes')
+console.log(promise)
+
+promise.then(response => {
+  console.log("response: ", response)
+})
+
+axios.get('https://didactic-halibut-q7pxpr6qv64g346j7-3001.app.github.dev/notes').then(response => {
+  const notes = response.data
+  ReactDOM.createRoot(document.getElementById('root')).render(<App notes={notes} />)
+})
+*/
