@@ -16,18 +16,18 @@ const Filter = ({text, value, changeHandler}) => {
 const PersonForm = ({nameText, nameValue, nameHandler, numberText, numberValue, numberHandler, submitHandler}) => {
   return (
     <form onSubmit={submitHandler}>
-      <Input text={nameText} deFaultValue={nameValue} changeHandler={nameHandler} />
-      <Input text={numberText} deFaultValue={numberValue} changeHandler={numberHandler} />
+      <Input text={nameText} value={nameValue} changeHandler={nameHandler} />
+      <Input text={numberText} value={numberValue} changeHandler={numberHandler} />
       <button type="submit">add</button>
     </form>
   )
 }
 
-const Input = ({text, defaultValue, changeHandler}) => {
+const Input = ({text, value, changeHandler}) => {
   return (
     <div>
       {text}
-      <input value={defaultValue} onChange={changeHandler}/>
+      <input value={value} onChange={changeHandler}/>
     </div>
   )
 }
@@ -102,4 +102,4 @@ export default App
 
 // Remaining queations:
 // empty name and number can be added
-// after add, newName and newValue is reset, but the default value on the page is not
+
