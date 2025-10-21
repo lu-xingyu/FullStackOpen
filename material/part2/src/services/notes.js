@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/notes'
+const baseUrl = 'https://didactic-halibut-q7pxpr6qv64g346j7-3001.app.github.dev/notes'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
