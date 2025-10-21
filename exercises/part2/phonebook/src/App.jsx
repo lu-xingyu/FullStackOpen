@@ -136,4 +136,3 @@ export default App
 // Remaining queations:
 // empty name and number can be added
 
-// Mary Poppendieck 39-23-6423122
