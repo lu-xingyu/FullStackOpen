@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-
-const Name = ({name, number}) => (
-  <p>{name} {number}</p>
-)
+import personService from './services/persons'
 
 const Filter = ({text, value, changeHandler}) => {
   return (
@@ -33,10 +30,22 @@ const Input = ({text, value, changeHandler}) => {
   )
 }
 
-const Persons = ({persons}) => {
+const Persons = ({persons, deleteHandler}) => {
   return (
-    persons.map((person) => <Name key={person.name} name={person.name} number={person.number} />)
+    persons.map((person) => {
+      return (
+        <PersonDisplay key={person.id} name={person.name} number={person.number} deleteHandler={() => deleteHandler(person)}/>
+      )
+    })
   )
+}
+
+
+
+const PersonDisplay = ({name, number, deleteHandler}) => {
+  return (
+    <p>{name} {number} <button onClick={deleteHandler}>delete</button> </p>
+  ) 
 }
 
 const App = () => {
@@ -46,12 +55,10 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    axios
-      .get('https://didactic-halibut-q7pxpr6qv64g346j7-3001.app.github.dev/persons')
-      .then(
-        (response) => {
-          setPersons(response.data)
-        })
+    personService.getAll()
+      .then((response) => {
+        setPersons(response)
+      })
   },[])
 
 
@@ -67,14 +74,27 @@ const App = () => {
     event.preventDefault()
     const exist = (element) => element.name === newName
     if (persons.some(exist)) {
-      alert(`${newName} is already added to phonebook`)
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new on?`)){
+        const personToUpdate = persons.find((element) => element.name === newName)
+        const updatedPerson = {...personToUpdate, number: newNumber}
+        personService.update(updatedPerson)
+        const newPersons = persons.map((element) => (
+          element.name === newName ?updatedPerson :element
+        ))
+        setPersons(newPersons)
+        setNewName('')
+        setNewNumber('')
+      }
     } else {
-      const newId = persons.length + 1
+      const newId = String(persons.length + 1)
       const submittedPerson = { name: newName, number: newNumber, id:newId}
-      const newPersons = persons.concat(submittedPerson)
-      setPersons(newPersons)
-      setNewName('')
-      setNewNumber('')
+      personService.add(submittedPerson)
+      .then((response) => {
+        const newPersons = persons.concat(response)
+        setPersons(newPersons)
+        setNewName('')
+        setNewNumber('')
+      })
     }
   }
 
@@ -85,6 +105,13 @@ const App = () => {
   const personToShow = persons.filter(element => (
     element.name.toLowerCase().includes(filter.toLowerCase())
   ))
+
+  const deleteHandler = (person) => {
+    if (window.confirm(`Delete ${person.name} ?`)) {
+      personService.remove(person.id)
+      setPersons(persons.filter((element) => (element.id !== person.id)))
+    }
+  }
 
   return (
     <div>
@@ -99,7 +126,7 @@ const App = () => {
                   submitHandler={addPerson}
       />
       <h2>Numbers</h2>
-      <Persons persons={personToShow} />
+      <Persons persons={personToShow} deleteHandler = {deleteHandler} />
     </div>
   )
 }
@@ -109,3 +136,4 @@ export default App
 // Remaining queations:
 // empty name and number can be added
 
+// Mary Poppendieck 39-23-6423122
