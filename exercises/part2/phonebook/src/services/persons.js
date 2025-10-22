@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/persons'
+const baseUrl = 'https://didactic-halibut-q7pxpr6qv64g346j7-3001.app.github.dev/persons'
 
 const getAll = () => {
   const allData = axios.get(baseUrl).then((response) => response.data)
@@ -18,7 +18,7 @@ const remove = (removeId) => {
 
 const update = (updatedPerson) => {
   const updatedData = axios.put(`${baseUrl}/${updatedPerson.id}`, updatedPerson)
-  return updatedData.then((response => response.data))
+  return updatedData
 }
 
 export default { 

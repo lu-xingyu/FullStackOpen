@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const Filter = ({text, value, changeHandler}) => {
   return (
@@ -53,6 +54,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [notification, setNotification] = useState({message: null, error: false})
 
   useEffect(() => {
     personService.getAll()
@@ -70,6 +72,13 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const renderNotification = (messageText, errorOrNot) => {
+    setNotification({message: messageText, error: errorOrNot})
+    setTimeout(() => {
+      setNotification({message: null, error: false})
+    }, 3000)
+  }
+
   const addPerson = (event) => {
     event.preventDefault()
     const exist = (element) => element.name === newName
@@ -78,12 +87,17 @@ const App = () => {
         const personToUpdate = persons.find((element) => element.name === newName)
         const updatedPerson = {...personToUpdate, number: newNumber}
         personService.update(updatedPerson)
-        const newPersons = persons.map((element) => (
-          element.name === newName ?updatedPerson :element
-        ))
-        setPersons(newPersons)
-        setNewName('')
-        setNewNumber('')
+          .then((response)=>{
+            const newPersons = persons.map((element) => (
+              element.name === newName ?updatedPerson :element
+            ))
+            setPersons(newPersons)
+            renderNotification(`Updated ${newName}`, false)
+            setNewName('')
+            setNewNumber('')
+          })
+          .catch(error => {renderNotification(`Information of ${newName} has already been removed from the server`, true)
+          })
       }
     } else {
       const newId = String(persons.length + 1)
@@ -92,6 +106,7 @@ const App = () => {
       .then((response) => {
         const newPersons = persons.concat(response)
         setPersons(newPersons)
+        renderNotification(`Added ${newName}`, false)
         setNewName('')
         setNewNumber('')
       })
@@ -117,6 +132,8 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
+      <Notification message={notification.message} error={notification.error}/>
+
       <Filter text='filter shown with: ' value={filter} changeHandler={getFilter} />
 
       <h2>add a new</h2>
@@ -133,6 +150,12 @@ const App = () => {
 
 export default App
 
-// Remaining queations:
-// empty name and number can be added
+/*
+Remaining issues I found:
+1. empty name and number can be added
+2. Because the appState is not shared between different broswer: 
+   if we open two browser, and add a person Esther via one broeser, and without refresh, add Esther to via another browser, 
+   it will succeed and cause two Esther in the server 
+   (the second browser doesn't know the changes of persons, and without refresh, it also doesn't know cahnges on the server)
+*/
 
