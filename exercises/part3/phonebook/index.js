@@ -1,6 +1,19 @@
 const express = require('express')
+var morgan = require('morgan')
 const app = express()
 app.use(express.json())
+
+morgan.token('body', (request, response) => {
+  return JSON.stringify(request.body)
+})
+
+app.use(morgan('tiny', {skip: (request, response) => {
+  return (request.method === "POST")
+}}))
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body', {skip: (request, response) => {
+  return (request.method !== "POST")
+}}))
 
 const MAX = 100000
 
