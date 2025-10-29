@@ -1,5 +1,11 @@
 import axios from 'axios'
-const baseUrl = 'https://didactic-halibut-q7pxpr6qv64g346j7-3001.app.github.dev/notes'
+const baseUrl = 'http://localhost:3001/notes'
+/* json-server use Access-Control-Allow-Origin: * by default, 
+if change the baseUrl in notes.js to the express server in part3 and delete this server line, 
+it will throw same-origin-policy error" 
+1. "server": "json-server -p 3001 db.json", 'http://localhost:3001/notes'
+2. const cors = require('cors) app.use(cors()) in part3 index.js, 'http://localhost:3001/api/notes'
+*/
 
 const getAll = () => {
   const request = axios.get(baseUrl)
