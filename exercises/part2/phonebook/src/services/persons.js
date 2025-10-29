@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'https://didactic-halibut-q7pxpr6qv64g346j7-3001.app.github.dev/persons'
+const baseUrl = 'api/persons'
 
 const getAll = () => {
   const allData = axios.get(baseUrl).then((response) => response.data)

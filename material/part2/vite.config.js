@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3001',
+        target: 'http://localhost:3001',   // 当浏览器访问的 URL 以 /api 开头 时，Vite 不再自己处理这个请求，而是把它转发（代理）给另一台服务器 —— 在这里就是 http://localhost:3001
         changeOrigin: true,
       },
     }

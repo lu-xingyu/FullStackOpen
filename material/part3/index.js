@@ -1,8 +1,8 @@
 const express = require('express')
-const cors = require('cors')
+
 const app = express()
 
-app.use(cors())
+
 app.use(express.json())
 app.use(express.static('dist')) 
 // whenever Express gets an HTTP GET request it will first check if the dist directory contains a
