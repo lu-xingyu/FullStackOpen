@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/notes'
+const baseUrl = '/api/notes'
 /* json-server use Access-Control-Allow-Origin: * by default, 
 if change the baseUrl in notes.js to the express server in part3 and delete this server line, 
 it will throw same-origin-policy error" 

@@ -4,7 +4,10 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
-
+app.use(express.static('dist')) 
+// whenever Express gets an HTTP GET request it will first check if the dist directory contains a
+// file corresponding to the request's address. If a correct file is found, Express will return it.
+// eg GET /, express will find dist/index.html by default
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -95,7 +98,6 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-console.log('process.env.PORT =', process.env.PORT)
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
