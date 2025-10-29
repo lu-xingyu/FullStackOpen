@@ -4,7 +4,7 @@ const app = express()
 
 
 app.use(express.json())
-app.use(express.static('dist')) 
+app.use(express.static('dist'))
 // whenever Express gets an HTTP GET request it will first check if the dist directory contains a
 // file corresponding to the request's address. If a correct file is found, Express will return it.
 // eg GET /, express will find dist/index.html by default
@@ -49,7 +49,7 @@ app.get('/api/notes', (request, response) => {
 app.get('/api/notes/:id', (request, response) => {
   const id = request.params.id
   const note = notes.find(note => note.id === id)
-  
+
 
   if (note) {
     response.json(note)
@@ -76,8 +76,8 @@ app.post('/api/notes', (request, response) => {
   const body = request.body
 
   if (!body.content) {
-    return response.status(400).json({ 
-      error: 'content missing' 
+    return response.status(400).json({
+      error: 'content missing'
     })
   }
 
