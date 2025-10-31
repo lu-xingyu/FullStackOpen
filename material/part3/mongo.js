@@ -28,7 +28,7 @@ Note.find({}).then(result => {
   })
   mongoose.connection.close()
 })
-
+// find all the documents in the collection corresponding to the Note model
 /*
 const note = new Note({
   content: 'Mongogoose makes things easy',

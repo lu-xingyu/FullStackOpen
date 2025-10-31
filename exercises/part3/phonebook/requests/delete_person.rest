@@ -1,0 +1,3 @@
+DELETE https://didactic-halibut-q7pxpr6qv64g346j7-3001.app.github.dev/api/persons/6904e1426e4bc7800b3ce51b
+Content-Type: application/json
+
