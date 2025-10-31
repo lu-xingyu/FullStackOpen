@@ -4,6 +4,7 @@ if (process.argv.length < 3) {
   console.log('give password as argument')
   process.exit(1)
 }
+// process is a global object of Node.js, represent the current process of the program
 
 const password = process.argv[2]
 
