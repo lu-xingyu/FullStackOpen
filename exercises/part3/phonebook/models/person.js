@@ -12,9 +12,31 @@ mongoose.connect(url)
         console.log('error connecting to MongoDB:', error.message)
     })
 
+function validateNumber(number) {
+    const arr = number.split("-")
+    if (arr.length !== 2) {
+        return false;
+    }
+
+    if (arr[0].length !== 2 && arr[0].length !== 3) {
+        return false;
+    }
+
+    return true
+}   
+
 const phonebookSchema = new mongoose.Schema({
-    name: String,
-    number: String,
+    name: {
+        type: String,
+        minLength: 3,
+        required: true
+    },
+    number:{
+        type: String,
+        minLength: 8,
+        validate: {validator: validateNumber, message: "phone number is not of correct form"},
+        required: true
+    }
 })
 
 phonebookSchema.set('toJSON', {

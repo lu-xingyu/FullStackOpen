@@ -110,6 +110,10 @@ const App = () => {
         setNewName('')
         setNewNumber('')
       })
+      .catch(error => {
+        console.log(error.response.data.error)
+        renderNotification(error.response.data.error, true)
+      })
     }
   }
 
