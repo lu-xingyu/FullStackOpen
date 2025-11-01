@@ -1,1 +1,1 @@
-GET https://didactic-halibut-q7pxpr6qv64g346j7-3001.app.github.dev/api/notes
+GET http://localhost:3001/api/notes/69048b6d3f3bf609b37d2372
