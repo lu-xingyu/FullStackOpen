@@ -96,7 +96,15 @@ const App = () => {
             setNewName('')
             setNewNumber('')
           })
-          .catch(error => {renderNotification(`Information of ${newName} has already been removed from the server`, true)
+          .catch(error => {
+            if (error.response.status === 400) {
+              console.log(error.response.data.error)
+              renderNotification(error.response.data.error, true)
+            }
+            else {
+              console.log(error.response.data.error)
+              renderNotification(`Information of ${newName} has already been removed from the server`, true)
+            }
           })
       }
     } else {
