@@ -64,7 +64,7 @@ app.get('/api/notes/:id', (request, response) => {
       } else {
         response.status(404).end()
       }    
-  })
+    })
   .catch(error => next(error))
 })
 // next(), execute next middleware; neax(error) execute next error handler middleware
@@ -105,7 +105,7 @@ app.put('/api/notes/:id', (request, response, next) => {
       note.content = content
       note.important = important
 
-      return note.save().then( updatedNote => {
+      return note.save().then(updatedNote => {
         response.json(updatedNote)
       })
     })

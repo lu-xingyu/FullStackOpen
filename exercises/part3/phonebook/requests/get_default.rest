@@ -1,4 +1,4 @@
-GET https://didactic-halibut-q7pxpr6qv64g346j7-3001.app.github.dev/api/persons
+GET http://localhost:3001/api/persons/11
 Content-Type: application/json
 
 
