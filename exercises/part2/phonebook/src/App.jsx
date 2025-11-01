@@ -136,7 +136,10 @@ const App = () => {
   const deleteHandler = (person) => {
     if (window.confirm(`Delete ${person.name} ?`)) {
       personService.remove(person.id)
-      setPersons(persons.filter((element) => (element.id !== person.id)))
+      .then(() => {
+        setPersons(persons.filter((element) => (element.id !== person.id)))
+        renderNotification(`${person.name} is deleted`, false)
+      })
     }
   }
 
