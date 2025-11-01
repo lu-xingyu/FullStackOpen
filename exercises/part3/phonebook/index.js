@@ -108,7 +108,8 @@ app.put('/api/persons/:id', (request, response) => {
         p.save()
           .then(updatedPerson => {
             response.json(updatedPerson)
-          })  
+          })
+        .catch(error => next(error))
       }
    })
    .catch(error => next(error))
