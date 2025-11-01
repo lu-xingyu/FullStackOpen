@@ -6,53 +6,53 @@ const app = express()
 app.use(express.json())
 app.use(express.static('dist'))
 
-morgan.token('body', (request, response) => {
+morgan.token('body', (request) => {
   return JSON.stringify(request.body)
 })
 
-app.use(morgan('tiny', {skip: (request, response) => {
-  return (request.method === "POST")
-}}))
+app.use(morgan('tiny', { skip: (request) => {
+  return (request.method === 'POST')
+} }))
 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body', {skip: (request, response) => {
-  return (request.method !== "POST")
-}}))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body', { skip: (request) => {
+  return (request.method !== 'POST')
+} }))
 
 
 /*
 let persons = [
-    { 
+    {
       "id": "1",
-      "name": "Arto Hellas", 
+      "name": "Arto Hellas",
       "number": "040-123456"
     },
-    { 
+    {
       "id": "2",
-      "name": "Ada Lovelace", 
+      "name": "Ada Lovelace",
       "number": "39-44-5323523"
     },
-    { 
+    {
       "id": "3",
-      "name": "Dan Abramov", 
+      "name": "Dan Abramov",
       "number": "12-43-234345"
     },
-    { 
+    {
       "id": "4",
-      "name": "Mary Poppendieck", 
+      "name": "Mary Poppendieck",
       "number": "39-23-6423122"
     }
 ]
 */
 
 app.get('/info', async (request, response) => {
-    const time = new Date();
-    const count = await Person.countDocuments();
-    response.send(`
-      <div> 
-        <p>Phonebook has info for ${count} people</p> 
-        <p>${time.toString()}</p> 
-      </div>`
-    )
+  const time = new Date()
+  const count = await Person.countDocuments()
+  response.send(`
+    <div>
+      <p>Phonebook has info for ${count} people</p>
+      <p>${time.toString()}</p>
+    </div>`
+  )
 })
 
 app.get('/api/persons', (request, response) => {
@@ -68,9 +68,9 @@ app.get('/api/persons/:id', (request, response, next) => {
         response.json(person)
       } else {
         response.status(404).end()
-      } 
+      }
     })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
@@ -83,7 +83,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
 })
 
 
-app.post('/api/persons', (request, response, next) =>{
+app.post('/api/persons', (request, response, next) => {
   const body = request.body
   const newPerson = new Person({
     name: body.name,
@@ -97,7 +97,7 @@ app.post('/api/persons', (request, response, next) =>{
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
-  const {person, number} = request.body
+  const { person, number } = request.body
   Person.findById(request.params.id)
     .then(p => {
       if (!p) {
@@ -111,13 +111,13 @@ app.put('/api/persons/:id', (request, response, next) => {
           })
           .catch(error => next(error))
       }
-   })
-   .catch(error => next(error))
+    })
+    .catch(error => next(error))
 })
 
 
 const unkownEndpoint = (resuest, response) => {
-  response.status(404).send({error: 'unknown endpoint'})
+  response.status(404).send({ error: 'unknown endpoint' })
 }
 
 app.use(unkownEndpoint)
@@ -126,9 +126,9 @@ const errorHandler = (error, request, response, next) => {
   console.log(error.message)
 
   if (error.name === 'CastError') {
-    return response.status(400).send({error: 'malformatted id'})
+    return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
-    return response.status(400).send({error: error.message})
+    return response.status(400).send({ error: error.message })
   }
 
   next(error)

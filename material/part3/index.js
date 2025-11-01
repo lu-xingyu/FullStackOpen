@@ -28,6 +28,7 @@ const requestLogger = (request, response, next) => {
 
 app.use(requestLogger)
 
+/*
 let notes = [
   {
     id: "1",
@@ -45,6 +46,7 @@ let notes = [
     important: true
   }
 ]
+*/
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
@@ -56,7 +58,7 @@ app.get('/api/notes', (request, response) => {
   })
 })
 
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/notes/:id', (request, response, next) => {
   Note.findById(request.params.id)
     .then(note => {
       if (note) {
@@ -65,7 +67,7 @@ app.get('/api/notes/:id', (request, response) => {
         response.status(404).end()
       }    
     })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 // next(), execute next middleware; neax(error) execute next error handler middleware
 
@@ -112,7 +114,7 @@ app.put('/api/notes/:id', (request, response, next) => {
         response.json(updatedNote)
       })
     })
-    .catch(error => nest(error))
+    .catch(error => next(error))
 })
 
 
