@@ -73,7 +73,7 @@ app.get('/api/persons/:id', (request, response, next) => {
   .catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
     .then(deletedPerson => {
       response.status(204)
@@ -96,7 +96,7 @@ app.post('/api/persons', (request, response, next) =>{
     .catch(error => next(error))
 })
 
-app.put('/api/persons/:id', (request, response) => {
+app.put('/api/persons/:id', (request, response, next) => {
   const {person, number} = request.body
   Person.findById(request.params.id)
     .then(p => {
@@ -109,7 +109,7 @@ app.put('/api/persons/:id', (request, response) => {
           .then(updatedPerson => {
             response.json(updatedPerson)
           })
-        .catch(error => next(error))
+          .catch(error => next(error))
       }
    })
    .catch(error => next(error))
